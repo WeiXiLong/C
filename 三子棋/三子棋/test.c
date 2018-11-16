@@ -56,7 +56,8 @@ void Player()
 			printf("输入数字错误，请重新输入:\n");	
 			//while (sizeof(getchar()) != 4);
 			//while (getchar() != '\0');
-			//while (getchar() != '\0');
+			//while (getchar() != '\0
+			//while(getch()!='\0');
 			continue;
 		} else if (g_arr[row][col] != ' ') {
 			printf("该位置已被占用，请重新输入:\n");
