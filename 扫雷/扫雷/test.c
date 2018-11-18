@@ -1,6 +1,7 @@
 #define _CRT_SECURE_NO_WARNINGS 
 #include<stdio.h>
 #include<stdlib.h>
+#include<time.h>
 #define ROW  9
 #define COL  9
 #define DEFAULT_MINE_COUNT 10
@@ -65,25 +66,41 @@ void DisplayMap(char map[COL + 2][COL + 2]) {
 		for (int col = 1; col <= COL; ++col) {
 			printf("%c ", map[row][col]);
 		}
+		printf("|");
 		printf("\n");
 	}
+	printf("    ");
+	for (int i = 1; i <= COL; ++i) {
+		printf("--");
+	}
+	printf("\n");
 }
 
 void UpdateShowMap(char show_map[ROW + 2][COL + 2],char mine_map[ROW + 2][COL + 2],int row,int col){
 	//这个函数要根据mine_map来计算row,col位置周围有几个雷
 	//把这些结果更新到show_map中
 	//此处8个位置不会越界，因为我们已经引入了边框[1,ROW]
-	int mine_cnt = mine_map[row - 1][col - 1] - '0' + mine_map[row - 1][col - 1] - '0'
-		+ mine_map[row - 1][col] - '0' + mine_map[row - 1][col + 1] - '0'
-		+ mine_map[row][col - 1] - '0' + mine_map[row][col + 1] - '0'
-		+ mine_map[row + 1][col - 1] - '0' + mine_map[row + 1][col + 1] - '0';
+	int mine_cnt = (mine_map[row - 1][col - 1] - '0') + (mine_map[row - 1][col ] - '0')
+		+ (mine_map[row - 1][col + 1] - '0')+ (mine_map[row][col - 1] - '0')
+		+ (mine_map[row][col + 1] - '0')+ (mine_map[row + 1][col - 1] - '0')
+		+ (mine_map[row + 1][col] - '0') + (mine_map[row + 1][col + 1] - '0');
 	show_map[row][col] = '0' + mine_cnt;
 
+	if (show_map[row][col] == '0') {
+		for (int i = row - 1; i <= row + 1; ++i) {
+			for (int j = col - 1; j <= col + 1; ++j) {
+				if (show_map[i][j] == '*') {
+					UpdateShowMap(show_map, mine_map, i, j);
+				}
+			}
+		}
+	}
+	//++blank_cnt_Up;
+	//return blank_cnt_Up;
 }
 
 void Game()
 {
-	int blank_cnt = 0;//
 	//进行具体的游戏
 	//使用两个二维数组表示地图，第一个地图表示给玩家展示的地图，第二个表示雷阵
 	//加上边框
@@ -115,16 +132,24 @@ void Game()
 			DisplayMap(mine_map);
 			break;
 		}
+		//统计该位置周围有几个雷，并将数字更新到地图上
+		UpdateShowMap(show_map,mine_map,row,col);
+		DisplayMap(show_map);
+		
 		//如果没踩雷，判定是否占了所有格子
-		++blank_cnt;
-		if (blank_cnt ==	ROW * COL - DEFAULT_MINE_COUNT) {
+		int blank_cnt_Up = 0;
+		for (int i = 1; i <= ROW; ++i) {
+			for (int j = 1; j <= COL; ++j) {
+				if (show_map[i][j] != '*') {
+					++blank_cnt_Up;
+				}
+			}
+		}
+		if (blank_cnt_Up == ROW * COL - DEFAULT_MINE_COUNT) {
 			printf("恭喜您，游戏胜利\n");
 			DisplayMap(mine_map);
 			break;
 		}
-		//统计该位置周围有几个雷，并将数字更新到地图上
-		UpdateShowMap(show_map,mine_map,row,col);
-		DisplayMap(show_map);
 	}
 }
 
@@ -141,6 +166,7 @@ void Start() {
 }
 
 int main() {
+	srand((unsigned)time(0));
 	Start();
 	system("pause");
 	return 0;
