@@ -95,8 +95,7 @@ void UpdateShowMap(char show_map[ROW + 2][COL + 2],char mine_map[ROW + 2][COL + 
 			}
 		}
 	}
-	//++blank_cnt_Up;
-	//return blank_cnt_Up;
+
 }
 
 void Game()
@@ -115,7 +114,6 @@ void Game()
 	//对这两个数组进行初始化
 	Init(show_map, mine_map);
 	//打印初始地图
-	//char map[ROW + 2][COL + 2];
 	DisplayMap(show_map);
 	while (1) {
 		//让玩家输入坐标，并判定坐标是否合法
