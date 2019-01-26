@@ -9,26 +9,23 @@ using namespace std;
 //	cout << "See how they run" << endl;
 //}
 
-void time(int hour,int minutes)
-{
-	cout << "Enter the number of hours : " ;
-	cin >> hour;
-
-	cout << "Enter the number of minutes : " ;
-	cin >> minutes;
-	cout << "Time: " << hour << " : " << minutes << endl;
-}
+//void time(int hour,int minutes) 7
+//{
+//	cout << "Enter the number of hours : " ;
+//	cin >> hour;
+//
+//	cout << "Enter the number of minutes : " ;
+//	cin >> minutes;
+//	cout << "Time: " << hour << " : " << minutes << endl;
+//}
 
 
 int main()
 {
-	int hour = 0;
-	int minutes = 0;
-	time(hour,minutes);
-	system("pause");
-
-
-
+	//7.int hour = 0;
+	//int minutes = 0;
+	//time(hour,minutes);
+	//system("pause");
 
 	//6.天文单位为地球到太阳的平均距离(约为150，000，000公里)
 	//double dist_light_year;
